@@ -499,6 +499,71 @@ The test runner will:
 - Execute all play functions in your stories
 - Report results and any failures
 
+## Test Types Overview
+
+### 1. Unit Tests (Vitest + React Testing Library)
+- **File:** `src/components/Button.test.tsx`
+- **Purpose:** Test component logic, rendering, and isolated user interactions
+- **Libraries Used:**
+  - `vitest` - Test runner and assertion library
+  - `@testing-library/react` - Utilities to render and query React components
+  - `@testing-library/user-event` - Simulate realistic user interactions
+  - `@testing-library/jest-dom` - Custom matchers (e.g., `toBeInTheDocument()`)
+- **What it tests:**
+  - ✅ Component renders correctly
+  - ✅ Props are applied properly
+  - ✅ Click handlers are called
+  - ✅ CSS classes are correct
+- **Run with:** `pnpm test`
+
+### 2. Storybook Component Tests (Vitest + composeStories)
+- **File:** `src/components/Button.stories.test.tsx`
+- **Purpose:** Test all story states/variants using Vitest
+- **Libraries Used:**
+  - `vitest` - Test runner
+  - `@testing-library/react` - Render components
+  - `@storybook/react` - `composeStories` utility to convert stories to testable components
+- **What it tests:**
+  - ✅ Each story variant renders without errors
+  - ✅ Story configurations are valid
+  - ✅ All component states are renderable
+- **Run with:** `pnpm test`
+
+### 3. Storybook Interaction Tests (Storybook Play Functions)
+- **File:** `src/components/Button.stories.tsx` (play functions in each story)
+- **Purpose:** Test component interactions visually within Storybook UI
+- **Libraries Used:**
+  - `@storybook/test` - Testing utilities (userEvent, within, expect)
+  - `@storybook/test-runner` - CLI tool to run play functions headlessly
+- **What it tests:**
+  - ✅ Element visibility and DOM structure
+  - ✅ CSS classes and styling
+  - ✅ User interactions (clicks, typing, etc.)
+  - ✅ Assertions within the visual context
+- **Run with:** `pnpm storybook:test` (requires Storybook running)
+
+### 4. E2E Tests (Playwright)
+- **File:** `src/e2e/button.spec.ts`
+- **Purpose:** Test component behavior in real browser against running Next.js app
+- **Libraries Used:**
+  - `@playwright/test` - E2E testing framework with multi-browser support
+- **What it tests:**
+  - ✅ Full page navigation and routing
+  - ✅ Real browser interactions (Chromium, Firefox, WebKit)
+  - ✅ Network requests and responses
+  - ✅ Visual regressions
+  - ✅ Cross-browser compatibility
+- **Run with:** `pnpm e2e`
+
+## Test Comparison Table
+
+| Test Type | Library | File Type | Run Command | Speed | Browser |
+|-----------|---------|-----------|-------------|-------|---------|
+| **Unit** | Vitest + RTL | `.test.tsx` | `pnpm test` | ⚡ Fast | Node.js (JSDOM) |
+| **Storybook Component** | Vitest + composeStories | `.stories.test.tsx` | `pnpm test` | ⚡ Fast | Node.js (JSDOM) |
+| **Storybook Interaction** | @storybook/test | `.stories.tsx` (play) | `pnpm storybook:test` | ⚡⚡ Medium | Real Browsers |
+| **E2E** | Playwright | `.spec.ts` | `pnpm e2e` | 🐢 Slow | Real Browsers |
+
 ## Verification Checklist
 
 After completing all steps, verify:
